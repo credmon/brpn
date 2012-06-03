@@ -1,5 +1,5 @@
 /*
-    This is mazen, a brpn, a rpn calculator.
+    This is brpn, a rpn calculator.
 
     Copyright (C) 2012 Christopher Redmon.
 
