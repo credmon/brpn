@@ -53,6 +53,8 @@ precision_t tan_local(precision_t a);
 precision_t asin_local(precision_t a);
 precision_t acos_local(precision_t a);
 precision_t atan_local(precision_t a);
+precision_t deg_local(precision_t a);
+precision_t rad_local(precision_t a);
 
 precision_t add(precision_t a, precision_t b);
 precision_t subtract(precision_t a, precision_t b);
@@ -60,11 +62,7 @@ precision_t multiply(precision_t a, precision_t b);
 precision_t divide(precision_t a, precision_t b);
 precision_t modulo(precision_t a, precision_t b);
 
-struct unary_operator pUnaryOperator;
-struct binary_operator pBinaryOperator;
-double global_result = 0;
-
-#define NUM_UNARY_OPERATORS 6
+#define NUM_UNARY_OPERATORS 8
 
 struct unary_operator UnaryOperators[NUM_UNARY_OPERATORS] =
 {
@@ -91,6 +89,14 @@ struct unary_operator UnaryOperators[NUM_UNARY_OPERATORS] =
    {
       "atan",
       atan_local,
+   },
+   {
+      "deg",
+      deg_local,
+   },
+   {
+      "rad",
+      rad_local,
    }
 };
 
@@ -271,7 +277,6 @@ binary_operator_t binary_operator_match(const char* string)
 int string_match(const char* string1, const char* string2)
 {
    int i = 0;
-   int len1, len2;
 
    if (strlen(string1) != strlen(string2))
    {
@@ -360,7 +365,7 @@ precision_t divide(precision_t a, precision_t b)
 precision_t modulo(precision_t a, precision_t b)
 {
    precision_t result = 0;
-   //result = a % b;
+   /* result = a % b; */
    return result;
 }
 
@@ -411,3 +416,16 @@ precision_t atan_local(precision_t a)
    precision_t result = 0;
    return result;
 }
+
+precision_t deg_local(precision_t a)
+{
+   precision_t result = (a*180)/(3.14159);
+   return result;
+}
+
+precision_t rad_local(precision_t a)
+{
+   precision_t result = (a*3.14159)/(180);
+   return result;
+}
+
