@@ -396,6 +396,7 @@ precision_t cos_local(precision_t a)
 precision_t tan_local(precision_t a)
 {
    precision_t result = 0;
+   result = sin_local(a)/cos_local(a);
    return result;
 }
 
