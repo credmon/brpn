@@ -22,9 +22,16 @@
 #include <getopt.h>
 #include <string.h>
 
+typedef void (*nullary_operator_t)(void);
 typedef long double (*unary_operator_t)(long double);
 typedef long double (*binary_operator_t)(long double,long double);
 typedef long double precision_t;
+
+struct nullary_operator
+{
+   char name[10];
+   nullary_operator_t func;
+};
 
 struct unary_operator
 {
@@ -38,10 +45,12 @@ struct binary_operator
    binary_operator_t func;
 };
 
-void usage(int exit_code);
+void usage(void);
 void version(void);
+void quit(void);
 void get_input(int input_fd);
 int operator_match(const char* string);
+nullary_operator_t nullary_operator_match(const char* string);
 unary_operator_t unary_operator_match(const char* string);
 binary_operator_t binary_operator_match(const char* string);
 int string_match(const char* string1, const char* string2);
@@ -61,6 +70,24 @@ precision_t subtract(precision_t a, precision_t b);
 precision_t multiply(precision_t a, precision_t b);
 precision_t divide(precision_t a, precision_t b);
 precision_t modulo(precision_t a, precision_t b);
+
+#define NUM_NULLARY_OPERATORS 3
+
+struct nullary_operator NullaryOperators[NUM_NULLARY_OPERATORS] =
+{
+   {
+      "help",
+      usage,
+   },
+   {
+      "version",
+      version,
+   },
+   {
+      "quit",
+      quit,
+   }
+};
 
 #define NUM_UNARY_OPERATORS 8
 
@@ -141,10 +168,12 @@ int main(int argc, char** argv)
       switch (opt)
       {
          case 'h':
-            usage(0);
+            usage();
+            exit(0);
             break;
          case 'v':
             version();
+            exit(0);
             break;
          default:
             break;
@@ -156,20 +185,22 @@ int main(int argc, char** argv)
    return 0;
 }
 
-void usage(int exit_code)
+void usage(void)
 {
    printf("Usage: brpn [flags]\n");
    printf("\n");
    printf("Flags:\n");
    printf("   -h --help .................... Print help\n");
    printf("   -v --version ................. Print version\n");
- 
-   exit(exit_code);
 }
 
 void version(void)
 {
    printf("Version: brpn-0.0\n");
+}
+
+void quit(void)
+{
    exit(0);
 }
 
@@ -183,6 +214,7 @@ void get_input(int input_fd)
    int i;
    int input_line_length = 0;
    precision_t accumulator[2];
+   nullary_operator_t NullaryFunc;
    unary_operator_t UnaryFunc;
    binary_operator_t BinaryFunc;
 
@@ -201,8 +233,11 @@ void get_input(int input_fd)
             if (input_line_length != 0)
             {
                input_array_cache[input_line_length] = '\0';
-
-               if ((UnaryFunc = unary_operator_match(input_array_cache)) != NULL)
+               if ((NullaryFunc = nullary_operator_match(input_array_cache)) != NULL)
+               {
+                  NullaryFunc();
+               }
+               else if ((UnaryFunc = unary_operator_match(input_array_cache)) != NULL)
                {
                   accumulator[0] = UnaryFunc(accumulator[0]);
                   printf("%Lf\n",accumulator[0]);
@@ -231,6 +266,11 @@ void get_input(int input_fd)
 
 int operator_match(const char* string)
 {
+   if (nullary_operator_match(string))
+   {
+      return 1;
+   }
+
    if (unary_operator_match(string) != NULL)
    {
       return 1;
@@ -242,6 +282,21 @@ int operator_match(const char* string)
    }
 
    return 0;
+}
+
+nullary_operator_t nullary_operator_match(const char* string)
+{
+   int i;
+
+   for (i = 0; i < NUM_NULLARY_OPERATORS; i++)
+   {
+      if (string_match(string, NullaryOperators[i].name))
+      {
+         return NullaryOperators[i].func;
+      }
+   }
+
+   return NULL;
 }
 
 unary_operator_t unary_operator_match(const char* string)
