@@ -392,28 +392,28 @@ precision_t convert_string_to_double(const char* string)
 precision_t add(precision_t a, precision_t b)
 {
    precision_t result;
-   result = a + b;
+   result = b + a;
    return result;
 }
 
 precision_t subtract(precision_t a, precision_t b)
 {
    precision_t result;
-   result = a - b;
+   result = b - a;
    return result;
 }
 
 precision_t multiply(precision_t a, precision_t b)
 {
    precision_t result;
-   result = a * b;
+   result = b * a;
    return result;
 }
 
 precision_t divide(precision_t a, precision_t b)
 {
    precision_t result;
-   result = a / b;
+   result = b / a;
    return result;
 }
 
