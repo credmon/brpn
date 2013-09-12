@@ -43,8 +43,10 @@ static precision_t atan_local(precision_t a);
 static precision_t deg_local(precision_t a);
 static precision_t rad_local(precision_t a);
 static precision_t sin_frac(precision_t a, int iteration);
+static precision_t degFtoC(precision_t a);
+static precision_t degCtoF(precision_t a);
 
-#define NUM_UNARY_OPERATORS 8
+#define NUM_UNARY_OPERATORS 10
 
 static struct unary_operator UnaryOperators[NUM_UNARY_OPERATORS] =
 {
@@ -80,6 +82,14 @@ static struct unary_operator UnaryOperators[NUM_UNARY_OPERATORS] =
       "rad",
       rad_local,
    },
+   {
+      "fc",
+      degFtoC,
+   },
+   {
+      "cf",
+      degCtoF,
+   }
 };
 
 unary_operator_t unary_operator_match(const char* string)
@@ -158,3 +168,18 @@ static precision_t sin_frac(precision_t a, int iteration)
    return (iteration*(iteration+1) - (a*a) + ((iteration*(iteration+1)*a*a)/(sin_frac(a,iteration+2))));
 }
 
+static precision_t degFtoC(precision_t a)
+{
+   precision_t result = 0;
+
+   result = (a-32)*(0.5555555555);
+   return result;
+}
+
+static precision_t degCtoF(precision_t a)
+{
+   precision_t result = 0;
+
+   result = (a*1.8) + 32;
+   return result;
+}
