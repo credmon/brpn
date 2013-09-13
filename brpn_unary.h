@@ -23,5 +23,6 @@
 typedef long double (*unary_operator_t)(long double);
 
 extern unary_operator_t unary_operator_match(const char* string);
+extern void unary_operator_help(void);
 
 #endif

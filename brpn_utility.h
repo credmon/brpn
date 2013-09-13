@@ -21,6 +21,7 @@
 #define BRPN_UTILITY_H
 
 extern int string_match(const char* string1, const char* string2);
+extern char* format_help_string(char pad_char, int string1_indent_column, int string2_indent_column, const char* string1, const char* string2);
 
 #endif
 

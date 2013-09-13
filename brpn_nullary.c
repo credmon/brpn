@@ -21,14 +21,19 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <string.h>
+#include "brpn_binary.h"
 #include "brpn_nullary.h"
+#include "brpn_unary.h"
 #include "brpn_utility.h"
 
 struct nullary_operator
 {
    char name[10];
+   char description[200];
    nullary_operator_t func;
 };
+
+static void help(void);
 
 #define NUM_NULLARY_OPERATORS 3
 
@@ -36,14 +41,17 @@ static struct nullary_operator NullaryOperators[NUM_NULLARY_OPERATORS] =
 {
    {
       "help",
-      usage,
+      "Print help dialog.",
+      help,
    },
    {
       "version",
+      "Print program version.",
       version,
    },
    {
       "quit",
+      "Exit program.",
       quit,
    },
 };
@@ -63,14 +71,29 @@ nullary_operator_t nullary_operator_match(const char* string)
    return NULL;
 }
 
-void usage(void)
+void nullary_operator_help(void)
 {
-   printf("Usage: brpn [flags]\n");
-   printf("\n");
-   printf("Flags:\n");
-   printf("   -h --help .................... Print help\n");
-   printf("   -v --version ................. Print version\n");
+   int i;
+
+   printf("Nullary Operators: [operation]\n");
+
+   for (i = 0; i < NUM_NULLARY_OPERATORS; i++)
+   {
+      printf("%s\n", format_help_string('.',3,15, NullaryOperators[i].name, NullaryOperators[i].description));
+   }
 }
+
+static void help(void)
+{
+   printf("\n");
+   nullary_operator_help();
+   printf("\n");
+   binary_operator_help();
+   printf("\n");
+   unary_operator_help();
+   printf("\n");
+}
+
 
 void version(void)
 {

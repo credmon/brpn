@@ -6,8 +6,8 @@ STRIP=strip
 
 all: brpn
 
-brpn: brpn_main.c brpn_input.c brpn_nullary.c brpn_unary.c brpn_binary.c brpn_utility.c
-	$(CC) $(CFLAGS) $(CLIBS) -o brpn brpn_main.c brpn_input.c brpn_nullary.c brpn_unary.c brpn_binary.c brpn_utility.c
+brpn: brpn_main.c brpn_input.c brpn_nullary.c brpn_unary.c brpn_binary.c brpn_utility.c brpn_usage.c
+	$(CC) $(CFLAGS) $(CLIBS) -o brpn brpn_main.c brpn_input.c brpn_nullary.c brpn_unary.c brpn_binary.c brpn_utility.c brpn_usage.c
 	$(STRIP) brpn
 
 clean:

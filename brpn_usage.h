@@ -17,12 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef BRPN_BINARY_H
-#define BRPN_BINARY_H
+#ifndef BRPN_USAGE_H
+#define BRPN_USAGE_H
 
-typedef long double (*binary_operator_t)(long double,long double);
-
-binary_operator_t binary_operator_match(const char* string);
-void binary_operator_help(void);
+extern int check_commandline_args(int argc, char** argv);
+extern void usage(void);
 
 #endif
+

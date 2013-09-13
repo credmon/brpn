@@ -17,48 +17,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <string.h>
-#include <unistd.h>
 #include "brpn_input.h"
 #include "brpn_main.h"
-#include "brpn_nullary.h"
-#include "brpn_unary.h"
-#include "brpn_binary.h"
-#include "brpn_utility.h"
+#include "brpn_usage.h"
 
 int main(int argc, char** argv)
 {
-   struct option longopts[] =
+   if (check_commandline_args(argc, argv) >= 0)
    {
-      {     "help",       no_argument, 0, 'h'},
-      {  "version",       no_argument, 0, 'v'},
-   };
-   int longindex;
-   int opt;
-
-   while ((opt = getopt_long(argc, argv, "hv", longopts, &longindex)) != -1)
-   {
-      switch (opt)
-      {
-         case 'h':
-            usage();
-            exit(0);
-            break;
-         case 'v':
-            version();
-            exit(0);
-            break;
-
-         /* parse command line args as standard data? */
-         default:
-            break;
-      }
+      get_input(0);
    }
-
-   get_input(0);
 
    return 0;
 }

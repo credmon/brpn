@@ -28,6 +28,7 @@
 struct unary_operator
 {
    char name[10];
+   char description[200];
    unary_operator_t func;
 };
 
@@ -52,42 +53,52 @@ static struct unary_operator UnaryOperators[NUM_UNARY_OPERATORS] =
 {
    {
       "sin",
+      "Sine",
       sin_local,
    },
    {
       "cos",
+      "Cosine",
       cos_local,
    },
    {
       "tan",
+      "Tangent",
       tan_local,
    },
    {
       "asin",
+      "Arcsine",
       asin_local,
    },
    {
       "acos",
+      "Arccosine",
       acos_local,
    },
    {
       "atan",
+      "Arctangent",
       atan_local,
    },
    {
       "deg",
+      "Degrees",
       deg_local,
    },
    {
       "rad",
+      "Radians",
       rad_local,
    },
    {
       "fc",
+      "Fahrenheit to Celsius",
       degFtoC,
    },
    {
       "cf",
+      "Celsius to Fahrenheit",
       degCtoF,
    }
 };
@@ -105,6 +116,18 @@ unary_operator_t unary_operator_match(const char* string)
    }
 
    return NULL;
+}
+
+void unary_operator_help(void)
+{
+   int i;
+
+   printf("Unary Operators: [a] [operation]\n");
+
+   for (i = 0; i < NUM_UNARY_OPERATORS; i++)
+   {
+      printf("%s\n", format_help_string('.',3,15, UnaryOperators[i].name, UnaryOperators[i].description));
+   }
 }
 
 static precision_t sin_local(precision_t a)

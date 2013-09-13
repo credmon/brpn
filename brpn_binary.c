@@ -28,10 +28,9 @@
 struct binary_operator
 {
    char name[10];
+   char description[200];
    binary_operator_t func;
 };
-
-binary_operator_t binary_operator_match(const char* string);
 
 /* binary */
 static precision_t add(precision_t a, precision_t b);
@@ -40,28 +39,33 @@ static precision_t multiply(precision_t a, precision_t b);
 static precision_t divide(precision_t a, precision_t b);
 static precision_t modulo(precision_t a, precision_t b);
 
-#define NUM_BINARY_OPERATORS 9
+#define NUM_BINARY_OPERATORS 5
 
 static struct binary_operator BinaryOperators[NUM_BINARY_OPERATORS] =
 {
    {
       "+",
+      "Add",
       add,
    },
    {
       "-",
+      "Subtract",
       subtract,
    },
    {
       "*",
+      "Multiply",
       multiply,
    },
    {
       "/",
+      "Divide",
       divide,
    },
    {
       "%",
+      "Modulo",
       modulo,
    },
 };
@@ -79,6 +83,18 @@ binary_operator_t binary_operator_match(const char* string)
    }
 
    return NULL;
+}
+
+void binary_operator_help(void)
+{
+   int i;
+
+   printf("Binary Operators: [a] [b] [operation]\n");
+
+   for (i = 0; i < NUM_BINARY_OPERATORS; i++)
+   {
+      printf("%s\n", format_help_string('.',3,15, BinaryOperators[i].name, BinaryOperators[i].description));
+   }
 }
 
 static precision_t add(precision_t a, precision_t b)

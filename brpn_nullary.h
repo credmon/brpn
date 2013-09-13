@@ -23,8 +23,8 @@
 typedef void (*nullary_operator_t)(void);
 
 extern nullary_operator_t nullary_operator_match(const char* string);
+extern void nullary_operator_help(void);
 
-extern void usage(void);
 extern void version(void);
 extern void quit(void);
 

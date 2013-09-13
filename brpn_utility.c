@@ -40,3 +40,48 @@ int string_match(const char* string1, const char* string2)
    return 1;
 }
 
+#define HELP_BUFFER_LENGTH 250
+
+char* format_help_string(char pad_char, int string1_indent_column, int string2_indent_column, const char* string1, const char* string2)
+{
+   static char buffer[HELP_BUFFER_LENGTH];
+   int len1, len2;
+   int buffer_index, string_index;
+
+   // 
+   memset(buffer, 0, sizeof(char)*HELP_BUFFER_LENGTH);
+   len1 = strlen(string1);
+   len2 = strlen(string2);
+   
+   for (buffer_index = 0; buffer_index < string1_indent_column; buffer_index++)
+   {
+      buffer[buffer_index] = ' ';
+   }
+
+   for (string_index = 0; (string_index < len1) && (buffer_index < HELP_BUFFER_LENGTH) && (buffer_index < string2_indent_column); string_index++, buffer_index++)
+   {
+      buffer[buffer_index] = string1[string_index];
+   }
+
+   if (buffer_index != (string2_indent_column))
+   {
+      buffer[buffer_index++] = ' ';
+   }
+
+   for (; buffer_index < (string2_indent_column - 1); buffer_index++)
+   {
+      buffer[buffer_index] = '.';
+   }
+
+   if (buffer_index == (string2_indent_column - 1))
+   {
+      buffer[buffer_index++] = ' ';
+   }
+
+   for (string_index = 0; (string_index < len2) && (buffer_index < HELP_BUFFER_LENGTH); string_index++, buffer_index++)
+   {
+      buffer[buffer_index] = string2[string_index];
+   }
+
+   return buffer;
+}
